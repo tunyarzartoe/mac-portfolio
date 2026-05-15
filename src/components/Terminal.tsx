@@ -334,17 +334,14 @@ function WeatherOut() {
 
 function BannerOut() {
   return (
-    <div style={{ marginTop: 4 }}>
-      <pre style={{ color: "var(--green)", fontSize: "6.5px", lineHeight: 1.25, overflow: "hidden" }}>{`████████╗██╗   ██╗███╗  ██╗██╗   ██╗ █████╗ ██████╗
-╚══██╔══╝██║   ██║████╗ ██║╚██╗ ██╔╝██╔══██╗██╔══██╗
-   ██║   ██║   ██║██╔██╗██║ ╚████╔╝ ███████║██████╔╝
-   ██║   ██║   ██║██║╚████║  ╚██╔╝  ██╔══██║██╔══██╗
-   ██║   ╚██████╔╝██║ ╚███║   ██║   ██║  ██║██║  ██║
-   ╚═╝    ╚═════╝ ╚═╝  ╚══╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝`}</pre>
-      <p style={{ color: "var(--muted)", fontSize: 10, marginTop: 5 }}>
-        {ME.title} · {ME.location}
-      </p>
-    </div>
+    <>
+    </>
+    // <div style={{ marginTop: 4 }}>
+    //   <pre style={{ color: "var(--green)", fontSize: "8px", lineHeight: 1.2, overflow: "hidden" }}>{`yarzar.dev`}</pre>
+    //   <p style={{ color: "var(--muted)", fontSize: 10, marginTop: 6 }}>
+    //     yarzar.dev — interactive terminal portfolio
+    //   </p>
+    // </div>
   );
 }
 

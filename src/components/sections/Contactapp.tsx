@@ -36,7 +36,7 @@ export default function ContactApp() {
 
       <p style={{ color:"var(--muted)", fontSize:11, lineHeight:1.75, marginBottom:14 }}>
         Always open to new opportunities, collaborations, or a chat about web tech.
-        The best way to reach me is email — I usually reply within 24 hours.
+        This terminal-style portfolio is my latest redesign, so feel free to connect via email or GitHub for project inquiries.
       </p>
 
       {/* Social links */}

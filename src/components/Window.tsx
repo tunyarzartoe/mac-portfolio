@@ -11,13 +11,16 @@ interface Props {
   onFocus:     () => void;
   onClose:     () => void;
   onMinimize?: () => void;
+  onToggleFullscreen?: () => void;
+  fullscreen?: boolean;
   children:    ReactNode;
   isMobile?:   boolean;
 }
 
 export default function Window({
   id, title, icon, defaultPos, defaultSize,
-  zIndex, onFocus, onClose, onMinimize, children, isMobile = false,
+  zIndex, onFocus, onClose, onMinimize, onToggleFullscreen,
+  fullscreen = false, children, isMobile = false,
 }: Props) {
   const [pos,  setPos]  = useState(defaultPos);
   const [size, setSize] = useState(defaultSize);
@@ -25,7 +28,7 @@ export default function Window({
   const offset   = useRef({ x: 0, y: 0 });
 
   function onMouseDown(e: React.MouseEvent) {
-    if (isMobile) return; // Disable dragging on mobile
+    if (isMobile || fullscreen) return; // Disable dragging on mobile and full-screen mode
     onFocus();
     dragging.current = true;
     offset.current = { x: e.clientX - pos.x, y: e.clientY - pos.y };
@@ -49,16 +52,26 @@ export default function Window({
     };
   }, []);
 
+  const windowStyle = fullscreen && !isMobile ? {
+    left: 12,
+    top: 12,
+    width: 'calc(100vw - 24px)',
+    height: 'calc(100vh - 24px)',
+    position: 'fixed' as const,
+    zIndex,
+  } : {
+    left: pos.x,
+    top: pos.y,
+    width: isMobile ? '100vw' : size.w,
+    height: isMobile ? 'calc(100vh - 106px)' : size.h,
+    zIndex,
+    position: isMobile ? 'fixed' as const : 'absolute' as const,
+  };
+
   return (
     <div
-      className="mac-win"
-      style={{
-        left: pos.x, top: pos.y,
-        width: isMobile ? '100vw' : size.w,
-        height: isMobile ? 'calc(100vh - 106px)' : size.h,
-        zIndex,
-        position: isMobile ? 'fixed' : 'absolute',
-      }}
+      className={`mac-win${fullscreen && !isMobile ? ' fullscreen' : ''}`}
+      style={windowStyle}
       onMouseDown={onFocus}
     >
       {/* Title bar */}
@@ -68,23 +81,31 @@ export default function Window({
         style={{ cursor: isMobile ? 'default' : 'grab' }}
       >
         {/* Traffic lights */}
-        <span
+        <button
           className="traffic-dot"
           style={{ background: "#ef4444" }}
           onClick={e => { e.stopPropagation(); onClose(); }}
           title="Close"
+          aria-label="Close"
         />
-        <span
+        <button
           className="traffic-dot"
           style={{ background: "#fbbf24" }}
           onClick={e => { e.stopPropagation(); onMinimize?.(); }}
           title="Minimize"
-        />
-        <span
+          aria-label="Minimize"
+        >
+          <span className="traffic-icon">─</span>
+        </button>
+        <button
           className="traffic-dot"
           style={{ background: "#22c55e" }}
-          title="Full screen (disabled)"
-        />
+          onClick={e => { e.stopPropagation(); onToggleFullscreen?.(); }}
+          title={fullscreen ? "Exit full screen" : "Full screen"}
+          aria-label="Toggle full screen"
+        >
+          <span className="traffic-icon">⤢</span>
+        </button>
 
         {/* Title */}
         <span style={{ flex: 1, textAlign: "center", fontSize: 11, color: "var(--muted)" }}>

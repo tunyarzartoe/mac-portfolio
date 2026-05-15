@@ -34,6 +34,9 @@ export default function AboutApp() {
       {ME.bio.map((line, i) => (
         <p key={i} style={{ color:"var(--muted)", fontSize:11, lineHeight:1.75, marginBottom:4 }}>{line}</p>
       ))}
+      <p style={{ color:"var(--muted)", fontSize:11, lineHeight:1.75, marginBottom:10 }}>
+        This new macOS-inspired portfolio is a redesigned version of my work, built as an interactive terminal experience with draggable windows, window controls, and keyboard-friendly navigation.
+      </p>
 
       {/* Quick info */}
       <div style={{ marginTop:14, marginBottom:14, paddingTop:12, borderTop:"1px solid var(--border)" }}>

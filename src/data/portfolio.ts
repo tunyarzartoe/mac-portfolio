@@ -4,11 +4,11 @@
 // ══════════════════════════════════════════════════════════
 
 export const ME = {
-  name:      "Tunyar Zar Toe",
-  handle:    "tunyarzartoe",
-  title:     "Full-Stack Developer",
+  name:      "Tun Yar Zar Toe",
+  handle:   "yarzar.dev",
+  title:     "Software Engineer",
   subtitle:  "Building things for the web",
-  location:  "Yangon, Myanmar 🇲🇲",
+  location:  "Tokyo, Japan",
   email:     "tunyarzartoe@gmail.com",
   github:    "https://github.com/tunyarzartoe",
   linkedin:  "https://linkedin.com/in/tunyarzartoe",

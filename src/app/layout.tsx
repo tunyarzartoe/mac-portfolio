@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Tun Yar Zar Toe - Full-Stack Developer",
+  title: "Tun Yar Zar Toe - Softweare Engineer",
   description: "Interactive terminal portfolio showcasing projects, skills, and experience. Built with Next.js and TypeScript.",
   keywords: ["developer", "portfolio", "full-stack", "react", "nextjs", "typescript"],
   authors: [{ name: "Tun Yar Zar Toe" }],

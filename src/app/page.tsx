@@ -26,9 +26,11 @@ const WIN_META: Record<WinId, { title: string; icon: string; size: { w: number; 
 const STAGGER = 36;
 
 interface WinState {
-  id:       WinId;
-  zIndex:   number;
-  pos:      { x: number; y: number };
+  id:         WinId;
+  zIndex:     number;
+  pos:        { x: number; y: number };
+  minimized:  boolean;
+  fullscreen: boolean;
 }
 
 let zCounter = 10;
@@ -54,35 +56,52 @@ export default function Page() {
     setWindows(prev => {
       const existing = prev.find(w => w.id === wid);
       if (existing) {
-        // bring to front
-        return prev.map(w => w.id === wid ? { ...w, zIndex: ++zCounter } : w);
+        // restore or bring to front
+        return prev.map(w =>
+          w.id === wid
+            ? { ...w, zIndex: ++zCounter, minimized: false }
+            : w
+        );
       }
-      const count = prev.length;
+
+      const visibleCount = prev.filter(w => !w.minimized).length;
       const { w, h } = WIN_META[wid].size;
 
-      if (isMobile) {
-        // Mobile: stack windows vertically, full width
-        return [...prev, {
-          id: wid,
-          zIndex: ++zCounter,
-          pos: { x: 10, y: 40 + count * 60 },
-        }];
-      } else {
-        // Desktop: cascade windows
-        return [...prev, {
-          id:  wid,
-          zIndex: ++zCounter,
-          pos: {
-            x: Math.max(60, (window.innerWidth  - w) / 2 + count * STAGGER),
-            y: Math.max(40, (window.innerHeight - h) / 2 + count * STAGGER - 30),
-          },
-        }];
-      }
+      const newWindow: WinState = {
+        id: wid,
+        zIndex: ++zCounter,
+        minimized: false,
+        fullscreen: false,
+        pos: isMobile
+          ? { x: 10, y: 40 + visibleCount * 60 }
+          : {
+              x: Math.max(60, (window.innerWidth  - w) / 2 + visibleCount * STAGGER),
+              y: Math.max(40, (window.innerHeight - h) / 2 + visibleCount * STAGGER - 30),
+            },
+      };
+
+      return [...prev, newWindow];
     });
   }, [isMobile]);
 
-  const closeWindow  = useCallback((id: WinId) => setWindows(p => p.filter(w => w.id !== id)), []);
-  const focusWindow  = useCallback((id: WinId) => setWindows(p => p.map(w => w.id === id ? { ...w, zIndex: ++zCounter } : w)), []);
+  const closeWindow = useCallback((id: WinId) => setWindows(p => p.filter(w => w.id !== id)), []);
+  const focusWindow = useCallback((id: WinId) => setWindows(p => p.map(w =>
+    w.id === id ? { ...w, zIndex: ++zCounter, minimized: false } : w
+  )), []);
+
+  const minimizeWindow = useCallback((id: WinId) => {
+    setWindows(p => p.map(w =>
+      w.id === id ? { ...w, minimized: true } : w
+    ));
+  }, []);
+
+  const toggleFullscreen = useCallback((id: WinId) => {
+    setWindows(p => p.map(w =>
+      w.id === id
+        ? { ...w, fullscreen: !w.fullscreen, minimized: false, zIndex: ++zCounter }
+        : w
+    ));
+  }, []);
 
   /* open terminal on boot */
   useEffect(() => { if (booted) openWindow("terminal"); }, [booted, openWindow]);
@@ -101,7 +120,10 @@ export default function Page() {
 
   if (isMobile) {
     // Mobile layout: full-screen windows with bottom navigation
-    const activeWindow = windows.find(w => w.zIndex === Math.max(...windows.map(w => w.zIndex)));
+    const visibleWindows = windows.filter(w => !w.minimized);
+    const activeWindow = visibleWindows.reduce((top, next) =>
+      !top || next.zIndex > top.zIndex ? next : top,
+    null as WinState | null);
 
     return (
       <div className="desktop-bg" style={{ width: "100vw", height: "100dvh", position: "relative", overflow: "hidden" }}>
@@ -126,8 +148,18 @@ export default function Page() {
                 onClick={() => closeWindow(activeWindow.id)}
                 title="Close"
               />
-              <span className="traffic-dot" style={{ background: "#fbbf24" }} title="Minimize" />
-              <span className="traffic-dot" style={{ background: "#22c55e" }} title="Full screen" />
+              <span
+                className="traffic-dot"
+                style={{ background: "#fbbf24" }}
+                onClick={() => minimizeWindow(activeWindow.id)}
+                title="Minimize"
+              />
+              <span
+                className="traffic-dot"
+                style={{ background: "#22c55e" }}
+                onClick={() => toggleFullscreen(activeWindow.id)}
+                title="Toggle full screen"
+              />
 
               <span style={{ flex: 1, textAlign: "center", fontSize: 11, color: "var(--muted)" }}>
                 {WIN_META[activeWindow.id].icon} {WIN_META[activeWindow.id].title}
@@ -165,7 +197,7 @@ export default function Page() {
     <div className="desktop-bg" style={{ width: "100vw", height: "100dvh", position: "relative", overflow: "hidden" }}>
       <MenuBar openWindow={openWindow} />
 
-      {windows.map(w => (
+      {windows.filter(w => !w.minimized).map(w => (
         <Window
           key={w.id}
           id={w.id}
@@ -174,9 +206,12 @@ export default function Page() {
           defaultPos={w.pos}
           defaultSize={WIN_META[w.id].size}
           zIndex={w.zIndex}
+          isMobile={isMobile}
+          fullscreen={w.fullscreen}
           onFocus={() => focusWindow(w.id)}
           onClose={() => closeWindow(w.id)}
-          isMobile={isMobile}
+          onMinimize={() => minimizeWindow(w.id)}
+          onToggleFullscreen={() => toggleFullscreen(w.id)}
         >
           {renderContent(w.id)}
         </Window>
