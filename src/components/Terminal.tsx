@@ -1,9 +1,9 @@
 "use client";
-import { useEffect, useRef, useState, JSX, KeyboardEvent } from "react";
+
+import { useEffect, useRef, useState, KeyboardEvent } from "react";
 import { ME, PROJECTS, SKILLS, EXPERIENCE, EDUCATION, SOCIALS } from "@/src/data/portfolio";
 
 const PROMPT = `${ME.handle}@macbook:~/portfolio$ `;
-
 const OLD_SITE = "https://tunyarzartoe.vercel.app";
 
 const ALL_CMDS = [
@@ -45,8 +45,8 @@ function HelpOut() {
         <div key={s.title} style={{ marginBottom: 10 }}>
           <p style={{ color: "var(--green)", fontSize: 10, marginBottom: 4 }}>— {s.title} —</p>
           {s.items.map(([cmd, desc]) => (
-            <div key={cmd} style={{ display: "flex", gap: 12, marginBottom: 1 }}>
-              <span style={{ color: "var(--blue)", minWidth: 110, fontSize: 11 }}>{cmd}</span>
+            <div key={cmd} style={{ display: "flex", gap: 12, marginBottom: 2 }}>
+              <span style={{ color: "var(--blue)", fontSize: 11, minWidth: 120 }}>{cmd}</span>
               <span style={{ color: "var(--muted)", fontSize: 11 }}>{desc}</span>
             </div>
           ))}
@@ -68,21 +68,25 @@ function AboutOut() {
       ))}
       <div style={{ marginTop: 10 }}>
         {[
-          ["Name",      ME.name],
-          ["Role",      ME.title],
-          ["Location",  ME.location],
-          ["Status",    ME.available ? "Open to opportunities ✅" : "Not available"],
-          ["Email",     ME.email],
-        ].map(([k, v]) => (
-          <div key={k} style={{ display: "flex", gap: 12, marginBottom: 2 }}>
-            <span style={{ color: "var(--green)", minWidth: 72, fontSize: 11 }}>{k}</span>
-            <span style={{ color: "var(--muted)", fontSize: 11 }}>{v}</span>
+          ["Name", ME.name],
+          ["Role", ME.title],
+          ["Location", ME.location],
+          ["Email", ME.email],
+          ["Website", ME.website],
+          ["GitHub", ME.github],
+        ].map(([label, value]) => (
+          <div key={label} style={{ display: "flex", gap: 12, marginBottom: 4 }}>
+            <span style={{ color: "var(--green)", minWidth: 80, fontSize: 11 }}>{label}</span>
+            {label === "Email" ? (
+              <a href={`mailto:${value}`} style={{ color: "var(--blue)", fontSize: 11 }}>{value}</a>
+            ) : (
+              <span style={{ color: "var(--muted)", fontSize: 11 }}>{value}</span>
+            )}
           </div>
         ))}
-        <div style={{ display: "flex", gap: 12, marginTop: 4, alignItems: "center" }}>
-          <span style={{ color: "var(--green)", minWidth: 72, fontSize: 11 }}>Old site</span>
-          <a href={OLD_SITE} target="_blank" rel="noopener noreferrer"
-             style={{ color: "var(--blue)", fontSize: 11 }}>
+        <div style={{ display: "flex", gap: 12, marginTop: 6, alignItems: "center" }}>
+          <span style={{ color: "var(--green)", minWidth: 80, fontSize: 11 }}>Legacy</span>
+          <a href={OLD_SITE} target="_blank" rel="noreferrer" style={{ color: "var(--blue)", fontSize: 11 }}>
             {OLD_SITE}
           </a>
         </div>
@@ -92,71 +96,107 @@ function AboutOut() {
 }
 
 function ProjectsOut() {
-  const sc: Record<string, string> = { live: "#4ade80", wip: "#fbbf24", archived: "#475569" };
+  const sc: Record<string, string> = { live: "#4ade80", wip: "#fbbf24", archived: "#94a3b8" };
   const [open, setOpen] = useState<string | null>(null);
   return (
     <div style={{ marginTop: 4 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-        <p style={{ color: "var(--yellow)", fontSize: 10, letterSpacing: ".1em" }}>LS -LA PROJECTS/</p>
-        <p style={{ color: "var(--muted)", fontSize: 10 }}>{PROJECTS.length} projects · click to expand</p>
-      </div>
-      {PROJECTS.map(p => (
-        <div key={p.id} className="proj-card" style={{ marginBottom: 7 }}>
-          <div
-            style={{ padding: "8px 10px", display: "flex", alignItems: "flex-start", gap: 8 }}
-            onClick={() => setOpen(open === p.id ? null : p.id)}
-          >
-            <span style={{ fontSize: 15, flexShrink: 0, marginTop: 1 }}>{p.emoji}</span>
-            <div style={{ flex: 1 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 2 }}>
-                <span style={{ color: "var(--blue)", fontWeight: 600 }}>./{p.name}</span>
-                <span style={{ color: sc[p.status], fontSize: 10 }}>● {p.status}</span>
-                <span style={{ color: "var(--muted)", fontSize: 10 }}>{p.year}</span>
-              </div>
-              <p style={{ color: "var(--muted)", fontSize: 10, lineHeight: 1.6 }}>{p.tagline}</p>
-              <div style={{ marginTop: 4 }}>
-                {p.tech.slice(0, 4).map(t => <span key={t} className="tech-tag">{t}</span>)}
-                {p.tech.length > 4 && <span style={{ color: "var(--muted)", fontSize: 9 }}>+{p.tech.length - 4} more</span>}
-              </div>
-            </div>
-            <span style={{ color: "var(--muted)", fontSize: 10, flexShrink: 0, marginTop: 2 }}>
-              {open === p.id ? "▲" : "▼"}
-            </span>
-          </div>
-          {open === p.id && (
-            <div style={{ borderTop: "1px solid var(--border)", padding: "10px 10px 10px 34px", background: "rgba(0,0,0,0.25)" }}>
-              <p style={{ color: "var(--muted)", fontSize: 10, lineHeight: 1.7, marginBottom: 8 }}>{p.desc}</p>
-              <p style={{ color: "var(--green)", fontSize: 10, marginBottom: 5 }}>## Highlights</p>
-              {p.highlights.map((h, i) => (
-                <div key={i} style={{ display: "flex", gap: 6, marginBottom: 2 }}>
-                  <span style={{ color: "var(--green)" }}>→</span>
-                  <span style={{ color: "var(--muted)", fontSize: 10, lineHeight: 1.6 }}>{h}</span>
-                </div>
-              ))}
-              <p style={{ color: "var(--green)", fontSize: 10, margin: "8px 0 4px" }}>## Stack</p>
-              <div>{p.tech.map(t => <span key={t} className="tech-tag">{t}</span>)}</div>
-              <div style={{ display: "flex", gap: 12, marginTop: 8, paddingTop: 8, borderTop: "1px solid var(--border)" }}>
-                <a href={p.github} target="_blank" rel="noopener noreferrer"
-                  style={{ color: "var(--blue)", fontSize: 10 }}>GitHub →</a>
-                {p.demo && <a href={p.demo} target="_blank" rel="noopener noreferrer"
-                  style={{ color: "var(--green)", fontSize: 10 }}>Live demo →</a>}
-              </div>
-            </div>
-          )}
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8, alignItems: "center" }}>
+        <div>
+          <p style={{ color: "var(--yellow)", fontSize: 10, marginBottom: 4, letterSpacing: ".1em" }}>CAT PROJECTS.JSON</p>
+          <p style={{ color: "var(--muted)", fontSize: 11 }}>A curated list of my recent web apps, tools, and experiments.</p>
         </div>
-      ))}
+        <span style={{ color: "var(--muted)", fontSize: 10 }}>Click a card to expand</span>
+      </div>
+      {PROJECTS.map((p) => {
+        const project = p as any;
+        const tags = project.stack ?? project.tags ?? [];
+        const liveUrl = project.liveUrl ?? project.url ?? project.link;
+        const repoUrl = project.repo ?? project.github ?? project.repository;
+        return (
+          <div key={project.id} className="proj-card" style={{
+            marginBottom: 8,
+            padding: 14,
+            borderRadius: 14,
+            background: "rgba(255,255,255,0.04)",
+            border: "1px solid rgba(255,255,255,0.08)"
+          }}>
+            <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start" }}>
+              <div>
+                <p style={{ color: "var(--text)", fontSize: 11, fontWeight: 500, marginBottom: 4 }}>
+                  {project.title ?? project.name}
+                </p>
+                <p style={{ color: "var(--muted)", fontSize: 10, lineHeight: 1.6, maxWidth: 520 }}>
+                  {project.description ?? project.summary ?? "No description available."}
+                </p>
+              </div>
+              <span style={{
+                color: sc[project.status ?? "live"] ?? "var(--blue)",
+                fontSize: 10,
+                textTransform: "uppercase"
+              }}>
+                {project.status ?? "live"}
+              </span>
+            </div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 8 }}>
+              {Array.isArray(tags) && tags.map((tag: string, index: number) => (
+                <span key={index} style={{
+                  color: "var(--muted)",
+                  fontSize: 10,
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  borderRadius: 6,
+                  padding: "4px 8px"
+                }}>{tag}</span>
+              ))}
+            </div>
+            {open === project.id && (
+              <div style={{ marginTop: 10, paddingTop: 10, borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+                <p style={{ color: "var(--text)", fontSize: 10, marginBottom: 8 }}>
+                  {project.details ?? project.longDescription ?? "Details unavailable for this project."}
+                </p>
+                <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                  {liveUrl && (
+                    <a href={liveUrl} target="_blank" rel="noreferrer" style={{ color: "var(--blue)", fontSize: 10 }}>
+                      Live demo
+                    </a>
+                  )}
+                  {repoUrl && (
+                    <a href={repoUrl} target="_blank" rel="noreferrer" style={{ color: "var(--blue)", fontSize: 10 }}>
+                      Repo
+                    </a>
+                  )}
+                </div>
+              </div>
+            )}
+            <button
+              type="button"
+              onClick={() => setOpen(open === project.id ? null : project.id)}
+              style={{
+                marginTop: 10,
+                padding: "8px 12px",
+                border: "none",
+                borderRadius: 8,
+                background: "rgba(255,255,255,0.06)",
+                color: "var(--text)",
+                cursor: "pointer"
+              }}
+            >
+              {open === project.id ? "Hide details" : "View details"}
+            </button>
+          </div>
+        );
+      })}
     </div>
   );
 }
 
 function SkillsOut() {
   function Bar({ level }: { level: number }) {
-    const filled = Math.round(level / 100 * 22);
+    const filled = Math.round((level ?? 0) / 100 * 22);
+    const empty = 22 - filled;
     return (
       <span style={{ fontFamily: "monospace", fontSize: 10 }}>
         <span style={{ color: "var(--green)" }}>{"█".repeat(filled)}</span>
-        <span style={{ color: "#1e3a5f" }}>{"░".repeat(22 - filled)}</span>
-        <span style={{ color: "var(--muted)", marginLeft: 6 }}>{level}%</span>
+        <span style={{ color: "rgba(255,255,255,0.14)" }}>{"█".repeat(empty)}</span>
       </span>
     );
   }
@@ -165,11 +205,11 @@ function SkillsOut() {
       <p style={{ color: "var(--yellow)", fontSize: 10, marginBottom: 8, letterSpacing: ".1em" }}>CAT SKILLS.JSON</p>
       {Object.entries(SKILLS).map(([cat, items]) => (
         <div key={cat} style={{ marginBottom: 10 }}>
-          <p style={{ color: "var(--green)", fontSize: 10, marginBottom: 5 }}>## {cat}</p>
-          {items.map(s => (
-            <div key={s.name} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 3 }}>
-              <span style={{ color: "var(--muted)", fontSize: 11, minWidth: 160, flexShrink: 0 }}>{s.name}</span>
-              <Bar level={s.level} />
+          <p style={{ color: "var(--green)", fontSize: 10, marginBottom: 6, letterSpacing: ".08em" }}>{cat.toUpperCase()}</p>
+          {items.map((skill: any) => (
+            <div key={skill.name} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
+              <span style={{ color: "var(--text)", fontSize: 11 }}>{skill.name}</span>
+              <Bar level={skill.level ?? skill.value ?? 0} />
             </div>
           ))}
         </div>
@@ -188,24 +228,17 @@ function ExperienceOut() {
             position: "absolute", left: -5, top: 4,
             width: 8, height: 8, borderRadius: "50%", background: "var(--green)"
           }} />
-          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8, marginBottom: 2 }}>
-            <span style={{ color: "var(--text)", fontSize: 12, fontWeight: 500 }}>{job.role}</span>
-            <span style={{ color: "var(--muted)", fontSize: 9, border: "1px solid var(--border)", borderRadius: 3, padding: "1px 5px" }}>{job.type}</span>
-          </div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 5 }}>
-            <span style={{ color: "var(--blue)", fontSize: 11 }}>{job.company}</span>
-            <span style={{ color: "var(--muted)", fontSize: 11 }}>{job.period}</span>
-            <span style={{ color: "var(--muted)", fontSize: 11 }}>{job.location}</span>
+          <p style={{ color: "var(--text)", fontSize: 11, fontWeight: 500, marginBottom: 4 }}>{job.role}</p>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 6 }}>
+            <span style={{ color: "var(--blue)", fontSize: 10 }}>{job.company}</span>
+            <span style={{ color: "var(--muted)", fontSize: 10 }}>{job.period}</span>
           </div>
           {job.bullets.map((b, j) => (
             <div key={j} style={{ display: "flex", gap: 6, marginBottom: 2 }}>
               <span style={{ color: "var(--green)" }}>▸</span>
-              <span style={{ color: "var(--muted)", fontSize: 11, lineHeight: 1.65 }}>{b}</span>
+              <span style={{ color: "var(--muted)", fontSize: 10, lineHeight: 1.6 }}>{b}</span>
             </div>
           ))}
-          <div style={{ marginTop: 5 }}>
-            {job.tech.map(t => <span key={t} className="tech-tag">{t}</span>)}
-          </div>
         </div>
       ))}
     </div>
@@ -221,15 +254,9 @@ function EducationOut() {
           position: "absolute", left: -5, top: 4,
           width: 8, height: 8, borderRadius: "50%", background: "var(--blue)"
         }} />
-        <p style={{ color: "var(--text)", fontSize: 12, fontWeight: 500 }}>{EDUCATION.degree}</p>
-        <p style={{ color: "var(--blue)", fontSize: 11 }}>{EDUCATION.school}</p>
-        <p style={{ color: "var(--muted)", fontSize: 11, marginBottom: 5 }}>{EDUCATION.period} · GPA {EDUCATION.gpa}</p>
-        {EDUCATION.bullets.map((b, i) => (
-          <div key={i} style={{ display: "flex", gap: 6, marginBottom: 2 }}>
-            <span style={{ color: "var(--green)" }}>▸</span>
-            <span style={{ color: "var(--muted)", fontSize: 11 }}>{b}</span>
-          </div>
-        ))}
+        <p style={{ color: "var(--text)", fontSize: 11, fontWeight: 500, marginBottom: 4 }}>{EDUCATION.degree}</p>
+        <p style={{ color: "var(--blue)", fontSize: 10, marginBottom: 3 }}>{EDUCATION.school}</p>
+        <p style={{ color: "var(--muted)", fontSize: 10 }}>{EDUCATION.period} · GPA {EDUCATION.gpa}</p>
       </div>
     </div>
   );
@@ -243,13 +270,22 @@ function ContactOut() {
         Always open to new opportunities, collaborations, or a chat about web tech.
         Best way to reach me is email.
       </p>
-      {SOCIALS.map(s => (
-        <div key={s.label} style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 4 }}>
-          <span style={{ color: "var(--green)", minWidth: 70, fontSize: 11 }}>{s.label}</span>
-          <a href={s.href} target="_blank" rel="noopener noreferrer"
-            style={{ color: "var(--blue)", fontSize: 11 }}>{s.value}</a>
-        </div>
-      ))}
+      {SOCIALS.map((s: any) => {
+        const href = s.href ?? s.url ?? s.link ?? (s.label === "Email" ? `mailto:${s.value}` : null);
+        const value = s.value ?? s.handle ?? s.username ?? s.label;
+        return (
+          <div key={s.label} style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 6 }}>
+            <span style={{ color: "var(--green)", minWidth: 80, fontSize: 11 }}>{s.label}</span>
+            {href ? (
+              <a href={href} target="_blank" rel="noreferrer" style={{ color: "var(--blue)", fontSize: 11 }}>
+                {value}
+              </a>
+            ) : (
+              <span style={{ color: "var(--muted)", fontSize: 11 }}>{value}</span>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }

@@ -1,6 +1,18 @@
 "use client";
 import { ME, EXPERIENCE, EDUCATION } from "@/src/data/portfolio";
 
+const WORK_HISTORY = [
+  { title: "Web Developer", company: "Kumo Solutions Software Company", period: "2023 - 2024", logo: "KS" },
+  { title: "Web Developer", company: "Evercomm Singapore", period: "2023 - 2024", logo: "ES" },
+  { title: "Web Developer", company: "Host Myanmar Mandalay", period: "2022 - 2023", logo: "HM" },
+];
+
+const EDUCATION_HISTORY = [
+  { title: "東京IT&プログラミング＆会計専門学校", period: "2026 - Present", logo: "IT" },
+  { title: "東京明日アカデミー日本語学校", period: "2024 - 2026", logo: "日" },
+  { title: "Technological University Mandalay", period: "2018 - 2020", logo: "TU" },
+];
+
 export default function AboutApp() {
   return (
     <div className="win-body">
@@ -53,6 +65,26 @@ export default function AboutApp() {
         ))}
       </div>
 
+      {/* Work history */}
+      <p style={{ color:"var(--green)", fontSize:10, marginBottom:8, letterSpacing:".08em" }}>WORK HISTORY</p>
+      {WORK_HISTORY.map((item, i) => (
+        <div key={i} style={{ display:"flex", gap:12, alignItems:"center", marginBottom:12 }}>
+          <div style={{
+            width:34, height:34, borderRadius:"50%",
+            background:"var(--navy-2)", border:"1px solid var(--border)",
+            display:"flex", alignItems:"center", justifyContent:"center",
+            color:"var(--green)", fontSize:11, fontWeight:700,
+          }}>
+            {item.logo}
+          </div>
+          <div>
+            <p style={{ color:"var(--text)", fontSize:11, fontWeight:500, marginBottom:2 }}>{item.title}</p>
+            <p style={{ color:"var(--blue)", fontSize:10, marginBottom:2 }}>{item.company}</p>
+            <p style={{ color:"var(--muted)", fontSize:10 }}>{item.period}</p>
+          </div>
+        </div>
+      ))}
+
       {/* Experience */}
       <p style={{ color:"var(--green)", fontSize:10, marginBottom:8, letterSpacing:".08em" }}>EXPERIENCE</p>
       {EXPERIENCE.map((job, i) => (
@@ -74,6 +106,23 @@ export default function AboutApp() {
 
       {/* Education */}
       <p style={{ color:"var(--green)", fontSize:10, marginTop:6, marginBottom:6, letterSpacing:".08em" }}>EDUCATION</p>
+      {EDUCATION_HISTORY.map((item, i) => (
+        <div key={i} style={{ display:"flex", gap:12, alignItems:"center", marginBottom:12 }}>
+          <div style={{
+            width:34, height:34, borderRadius:"50%",
+            background:"var(--navy-2)", border:"1px solid var(--border)",
+            display:"flex", alignItems:"center", justifyContent:"center",
+            color:"var(--blue)", fontSize:11, fontWeight:700,
+          }}>
+            {item.logo}
+          </div>
+          <div>
+            <p style={{ color:"var(--text)", fontSize:11, fontWeight:500, marginBottom:2 }}>{item.title}</p>
+            <p style={{ color:"var(--muted)", fontSize:10 }}>{item.period}</p>
+          </div>
+        </div>
+      ))}
+
       <div style={{ borderLeft:"2px solid var(--border)", paddingLeft:10, position:"relative" }}>
         <div style={{ position:"absolute", left:-5, top:4, width:8, height:8, borderRadius:"50%", background:"var(--blue)" }} />
         <p style={{ color:"var(--text)", fontSize:11, fontWeight:500 }}>{EDUCATION.degree}</p>
