@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState, JSX } from "react";
+import { useEffect, useRef, useState, JSX, KeyboardEvent } from "react";
 import { ME, PROJECTS, SKILLS, EXPERIENCE, EDUCATION, SOCIALS } from "@/src/data/portfolio";
 
 const PROMPT = `${ME.handle}@macbook:~/portfolio$ `;
@@ -348,7 +348,7 @@ function BannerOut() {
 /* ── Main Terminal component ─────────────────────────────────── */
 export default function Terminal() {
   type Entry = { cmd: string; output: JSX.Element | null };
-  const [history, setHistory]     = useState<Entry[]>([]);
+  const [history, setHistory]     = useState<Entry[]>([{ cmd: "", output: <InitialOut /> }]);
   const [input, setInput]         = useState("");
   const [cmdHist, setCmdHist]     = useState<string[]>([]);
   const [histIdx, setHistIdx]     = useState(-1);
@@ -357,16 +357,16 @@ export default function Terminal() {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    runCmd("banner");
-    setTimeout(() => runCmd("help"), 150);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    inputRef.current?.focus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [history]);
 
-  function runCmd(raw: string) {
+  function runCmd(raw: string, options?: { showPrompt?: boolean }) {
+    const showPrompt = options?.showPrompt ?? true;
     const cmd = raw.trim();
     const lo  = cmd.toLowerCase();
     setTabHints([]);
@@ -407,101 +407,163 @@ export default function Terminal() {
       </p>
     );
 
-    setHistory(p => [...p, { cmd: raw, output: out }]);
-    if (cmd) setCmdHist(p => [cmd, ...p]);
-    setHistIdx(-1);
-  }
+    setHistory(p => [...p, { cmd: showPrompt ? raw : "", output: out }]);
+    if (cmd && showPrompt) setCmdHist(p => [cmd, ...p]);
+     setHistIdx(-1);
+   }
 
-  function onKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === "Enter") {
-      runCmd(input);
-      setInput("");
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      const next = Math.min(histIdx + 1, cmdHist.length - 1);
-      setHistIdx(next);
-      setInput(cmdHist[next] ?? "");
-    } else if (e.key === "ArrowDown") {
-      e.preventDefault();
-      const next = Math.max(histIdx - 1, -1);
-      setHistIdx(next);
-      setInput(next === -1 ? "" : (cmdHist[next] ?? ""));
-    } else if (e.key === "Tab") {
-      e.preventDefault();
-      const p = input.toLowerCase();
-      if (!p) return;
-      const m = ALL_CMDS.filter(c => c.startsWith(p));
-      if (m.length === 1) { setInput(m[0]); setTabHints([]); }
-      else if (m.length > 1) setTabHints(m);
-    } else if (e.key === "l" && e.ctrlKey) {
-      e.preventDefault();
-      setHistory([]);
-      setTabHints([]);
-    }
-  }
+   function onKeyDown(e: KeyboardEvent<HTMLInputElement>) {
+     if (e.key === "Enter") {
+       runCmd(input);
+       setInput("");
+     } else if (e.key === "ArrowUp") {
+       e.preventDefault();
+       const next = Math.min(histIdx + 1, cmdHist.length - 1);
+       setHistIdx(next);
+       setInput(cmdHist[next] ?? "");
+     } else if (e.key === "ArrowDown") {
+       e.preventDefault();
+       const next = Math.max(histIdx - 1, -1);
+       setHistIdx(next);
+       setInput(next === -1 ? "" : (cmdHist[next] ?? ""));
+     } else if (e.key === "Tab") {
+       e.preventDefault();
+       const p = input.toLowerCase();
+       if (!p) return;
+       const m = ALL_CMDS.filter(c => c.startsWith(p));
+       if (m.length === 1) { setInput(m[0]); setTabHints([]); }
+       else if (m.length > 1) setTabHints(m);
+     } else if (e.key === "l" && e.ctrlKey) {
+       e.preventDefault();
+       setHistory([]);
+       setTabHints([]);
+     }
+   }
 
-  return (
-    <div
-      className="term-body"
-      onClick={() => inputRef.current?.focus()}
-      style={{ cursor: "text" }}
-    >
-      {history.map((entry, i) => (
-        <div key={i} style={{ marginBottom: 4 }}>
-          {entry.cmd && (
-            <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-              <span style={{ color: "var(--green)", flexShrink: 0, fontSize: 11 }}>{PROMPT}</span>
-              <span style={{ color: "var(--text)", fontSize: 11 }}>{entry.cmd}</span>
-            </div>
-          )}
-          {entry.output && <div style={{ marginTop: 3, paddingLeft: 2 }}>{entry.output}</div>}
-        </div>
-      ))}
-
-      {/* Tab suggestions */}
-      {tabHints.length > 0 && (
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 4, paddingLeft: 2 }}>
-          {tabHints.map(h => (
-            <span
-              key={h}
-              style={{ color: "var(--blue)", fontSize: 11, cursor: "pointer" }}
-              onClick={() => { setInput(h); setTabHints([]); inputRef.current?.focus(); }}
-            >
-              {h}
-            </span>
-          ))}
-        </div>
-      )}
-
-      {/* Input row */}
-      <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-        <span style={{ color: "var(--green)", flexShrink: 0, fontSize: 11 }}>{PROMPT}</span>
-        <div style={{ position: "relative", flex: 1 }}>
-          <input
-            ref={inputRef}
-            value={input}
-            onChange={e => { setInput(e.target.value); setTabHints([]); }}
-            onKeyDown={onKeyDown}
-            className="term-input"
-            autoFocus
-            spellCheck={false}
-            autoComplete="off"
+   return (
+    <div style={{
+      borderRadius: 24,
+      overflow: "hidden",
+      background: "#05070b",
+      border: "1px solid rgba(255,255,255,0.08)",
+      boxShadow: "0 32px 100px rgba(0,0,0,0.35)",
+    }}>
+      <div style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 10,
+        padding: "12px 16px",
+        background: "rgba(255,255,255,0.06)",
+        borderBottom: "1px solid rgba(255,255,255,0.08)",
+      }}>
+        <div style={{ display: "flex", gap: 8 }}>
+          <span
+            title="Clear terminal"
+            onClick={() => { setHistory([]); setTabHints([]); }}
+            style={{
+              width: 12,
+              height: 12,
+              borderRadius: "50%",
+              background: "#ff5f56",
+              display: "inline-block",
+              boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.12)",
+              cursor: "pointer",
+            }}
           />
           <span
-            className="cursor-blink"
             style={{
-              position: "absolute", top: 0,
-              left: `${input.length}ch`,
-              width: "0.58ch", height: "1em",
-              background: "var(--green)",
-              pointerEvents: "none",
+              width: 12,
+              height: 12,
+              borderRadius: "50%",
+              background: "#ffbd2e",
+              display: "inline-block",
+              boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.12)",
+            }}
+          />
+          <span
+            style={{
+              width: 12,
+              height: 12,
+              borderRadius: "50%",
+              background: "#27c93f",
+              display: "inline-block",
+              boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.12)",
             }}
           />
         </div>
+        <span style={{ color: "var(--muted)", fontSize: 11, marginLeft: 8 }}>Terminal</span>
+        <span style={{ marginLeft: "auto", color: "var(--muted)", fontSize: 10 }}>zsh</span>
       </div>
-      <div ref={bottomRef} />
-    </div>
-  );
+      <div
+        className="term-body"
+        onClick={() => inputRef.current?.focus()}
+        style={{
+          cursor: "text",
+          padding: "22px 20px 16px",
+          minHeight: 440,
+          background: "#02040a",
+          fontFamily: "JetBrains Mono, Menlo, monospace",
+          color: "var(--text)",
+          lineHeight: 1.6,
+        }}
+      >
+         {history.map((entry, i) => (
+           <div key={i} style={{ marginBottom: 8 }}>
+             {entry.cmd && (
+               <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
+                 <span style={{ color: "var(--green)", flexShrink: 0, fontSize: 11 }}>{PROMPT}</span>
+                 <span style={{ color: "var(--text)", fontSize: 11 }}>{entry.cmd}</span>
+               </div>
+             )}
+             {entry.output && <div style={{ marginTop: 6, paddingLeft: 2 }}>{entry.output}</div>}
+           </div>
+         ))}
+ 
+         {/* Tab suggestions */}
+         {tabHints.length > 0 && (
+           <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 10, paddingLeft: 2 }}>
+             {tabHints.map(h => (
+               <span
+                 key={h}
+                 style={{ color: "var(--blue)", fontSize: 11, cursor: "pointer" }}
+                 onClick={() => { setInput(h); setTabHints([]); inputRef.current?.focus(); }}
+               >
+                 {h}
+               </span>
+             ))}
+           </div>
+         )}
+ 
+         {/* Input row */}
+         <div style={{ display: "flex", alignItems: "center", gap: 8, paddingTop: 8, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+           <span style={{ color: "var(--green)", flexShrink: 0, fontSize: 11 }}>{PROMPT}</span>
+           <input
+             ref={inputRef}
+             value={input}
+             onChange={e => { setInput(e.target.value); setTabHints([]); }}
+             onKeyDown={onKeyDown}
+             className="term-input"
+             autoFocus
+             spellCheck={false}
+             autoComplete="off"
+             placeholder="Type help and press Enter"
+             style={{
+               width: "100%",
+               border: "none",
+               outline: "none",
+               background: "transparent",
+               color: "var(--text)",
+               fontSize: 11,
+               fontFamily: "inherit",
+               caretColor: "var(--green)",
+               padding: 0,
+             }}
+           />
+         </div>
+         <div ref={bottomRef} />
+       </div>
+     </div>
+   );
 }
 
 /* small inline helpers */
@@ -558,6 +620,27 @@ function HistoryOut({ hist }: { hist: string[] }) {
           <span style={{ color: "var(--muted)" }}>{c}</span>
         </div>
       ))}
+    </div>
+  );
+}
+
+function InitialOut() {
+  return (
+    <div style={{ marginTop: 4 }}>
+      <p style={{ color: "var(--yellow)", fontSize: 10, letterSpacing: ".1em", marginBottom: 6 }}>
+        WELCOME
+      </p>
+      <p style={{ color: "var(--text)", fontSize: 12, marginBottom: 10 }}>
+        Type <span style={{ color: "var(--blue)" }}>help</span> for the full command list.
+      </p>
+      <p style={{ color: "var(--muted)", fontSize: 11, marginBottom: 6 }}>Important commands</p>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+        {["help", "about", "projects", "skills", "contact", "clear"].map(cmd => (
+          <span key={cmd} style={{ color: "var(--green)", fontSize: 11 }}>
+            {cmd}
+          </span>
+        ))}
+      </div>
     </div>
   );
 }
