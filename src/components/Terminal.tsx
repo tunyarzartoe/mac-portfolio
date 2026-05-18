@@ -4,6 +4,8 @@ import { ME, PROJECTS, SKILLS, EXPERIENCE, EDUCATION, SOCIALS } from "@/src/data
 
 const PROMPT = `${ME.handle}@macbook:~/portfolio$ `;
 
+const OLD_SITE = "https://tunyarzartoe.vercel.app";
+
 const ALL_CMDS = [
   "help","about","projects","skills","experience","education",
   "contact","whoami","ls","ls -la","pwd","date","uptime",
@@ -77,6 +79,13 @@ function AboutOut() {
             <span style={{ color: "var(--muted)", fontSize: 11 }}>{v}</span>
           </div>
         ))}
+        <div style={{ display: "flex", gap: 12, marginTop: 4, alignItems: "center" }}>
+          <span style={{ color: "var(--green)", minWidth: 72, fontSize: 11 }}>Old site</span>
+          <a href={OLD_SITE} target="_blank" rel="noopener noreferrer"
+             style={{ color: "var(--blue)", fontSize: 11 }}>
+            {OLD_SITE}
+          </a>
+        </div>
       </div>
     </div>
   );
@@ -442,12 +451,43 @@ export default function Terminal() {
 
    return (
     <div style={{
-      borderRadius: 24,
+      borderRadius: 28,
       overflow: "hidden",
-      background: "#05070b",
+      background: "linear-gradient(180deg, rgba(8,10,15,0.98), rgba(2,4,10,0.99))",
       border: "1px solid rgba(255,255,255,0.08)",
       boxShadow: "0 32px 100px rgba(0,0,0,0.35)",
     }}>
+      <div style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: 12,
+        padding: "14px 18px",
+        background: "rgba(255,255,255,0.05)",
+        borderBottom: "1px solid rgba(255,255,255,0.08)",
+        backdropFilter: "blur(16px)",
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <span style={{ fontSize: 16, color: "var(--green)" }}></span>
+          <div>
+            <p style={{ margin: 0, color: "var(--text)", fontSize: 12, fontWeight: 600 }}>yarzar.dev</p>
+            <p style={{ margin: 0, color: "var(--muted)", fontSize: 10 }}>Interactive macOS terminal</p>
+          </div>
+        </div>
+        <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+          {["home","about","projects","contact"].map(item => (
+            <span key={item} style={{
+              color: "var(--muted)",
+              fontSize: 10,
+              textTransform: "uppercase",
+              letterSpacing: ".12em",
+            }}>
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
+
       <div style={{
         display: "flex",
         alignItems: "center",
@@ -457,43 +497,23 @@ export default function Terminal() {
         borderBottom: "1px solid rgba(255,255,255,0.08)",
       }}>
         <div style={{ display: "flex", gap: 8 }}>
-          <span
-            title="Clear terminal"
-            onClick={() => { setHistory([]); setTabHints([]); }}
-            style={{
-              width: 12,
-              height: 12,
-              borderRadius: "50%",
-              background: "#ff5f56",
-              display: "inline-block",
-              boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.12)",
-              cursor: "pointer",
-            }}
-          />
-          <span
-            style={{
-              width: 12,
-              height: 12,
-              borderRadius: "50%",
-              background: "#ffbd2e",
-              display: "inline-block",
-              boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.12)",
-            }}
-          />
-          <span
-            style={{
-              width: 12,
-              height: 12,
-              borderRadius: "50%",
-              background: "#27c93f",
-              display: "inline-block",
-              boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.12)",
-            }}
-          />
+          <span title="Clear terminal" onClick={() => { setHistory([]); setTabHints([]); }} style={{
+            width: 12, height: 12, borderRadius: "50%", background: "#ff5f56",
+            display: "inline-block", boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.12)", cursor: "pointer",
+          }} />
+          <span style={{
+            width: 12, height: 12, borderRadius: "50%", background: "#ffbd2e",
+            display: "inline-block", boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.12)",
+          }} />
+          <span style={{
+            width: 12, height: 12, borderRadius: "50%", background: "#27c93f",
+            display: "inline-block", boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.12)",
+          }} />
         </div>
         <span style={{ color: "var(--muted)", fontSize: 11, marginLeft: 8 }}>Terminal</span>
         <span style={{ marginLeft: "auto", color: "var(--muted)", fontSize: 10 }}>zsh</span>
       </div>
+
       <div
         className="term-body"
         onClick={() => inputRef.current?.focus()}
@@ -501,10 +521,15 @@ export default function Terminal() {
           cursor: "text",
           padding: "22px 20px 16px",
           minHeight: 440,
+          maxHeight: "calc(100vh - 220px)",
+          overflowY: "auto",
+          scrollbarWidth: "thin",
           background: "#02040a",
           fontFamily: "JetBrains Mono, Menlo, monospace",
           color: "var(--text)",
           lineHeight: 1.6,
+          borderRadius: "12px",
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)",
         }}
       >
          {history.map((entry, i) => (
