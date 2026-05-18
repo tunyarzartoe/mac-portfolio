@@ -1,26 +1,29 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "../styles/globals.css";
 
-const geistSans = Geist({
+const geistSans = Inter({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
+const geistMono = JetBrains_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Tun Yar Zar Toe - Softweare Engineer",
-  description: "Interactive terminal portfolio showcasing projects, skills, and experience. Built with Next.js and TypeScript.",
+  title: "Tun Yar Zar Toe - Software Engineer",
+  description:
+    "Interactive terminal portfolio showcasing projects, skills, and experience. Built with Next.js and TypeScript.",
   keywords: ["developer", "portfolio", "full-stack", "react", "nextjs", "typescript"],
   authors: [{ name: "Tun Yar Zar Toe" }],
 };
 
 export const viewport = {
-  width: 'device-width',
+  width: "device-width",
   initialScale: 1,
   maximumScale: 1,
 };
@@ -31,7 +34,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+    >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
