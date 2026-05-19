@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState, KeyboardEvent } from "react";
 import { ME, PROJECTS, SKILLS, EXPERIENCE, EDUCATION, SOCIALS } from "@/src/data/portfolio";
 
+import Icon from "@/public/favicon.ico";
+
 const PROMPT = `${ME.handle}@macbook:~/portfolio$ `;
 const OLD_SITE = "https://tunyarzartoe.vercel.app";
 
@@ -504,7 +506,7 @@ export default function Terminal() {
         backdropFilter: "blur(16px)",
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <span style={{ fontSize: 16, color: "var(--green)" }}></span>
+          <span style={{ fontSize: 16, color: "var(--green)" }}><img src={Icon.src} alt="Icon" style={{ width: 16, height: 16 }} /></span>
           <div>
             <p style={{ margin: 0, color: "var(--text)", fontSize: 12, fontWeight: 600 }}>yarzar.dev</p>
             <p style={{ margin: 0, color: "var(--muted)", fontSize: 10 }}>Interactive macOS terminal</p>
