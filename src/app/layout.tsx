@@ -1,7 +1,5 @@
 "use client";
 
-import Head from "next/head";
-import { useMetadata } from "../data/meta_data";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "../styles/globals.css";
 import MetaDataHead from "../components/MetaDataHead";

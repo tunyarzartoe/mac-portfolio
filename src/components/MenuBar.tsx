@@ -44,7 +44,7 @@ export default function MenuBar({ openWindow }: Props) {
       }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-        <span style={{ color: "var(--green)", fontSize: 14, fontWeight: 700 }}></span>
+        {/* <span style={{ color: "var(--green)", fontSize: 14, fontWeight: 700 }}></span> */}
         <span style={{ color: "var(--text)", fontSize: 12, fontWeight: 600 }}>
           {ME.handle}
         </span>

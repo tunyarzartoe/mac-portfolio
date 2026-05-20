@@ -38,6 +38,7 @@ export const useMetadata = () => {
         title: "About | Tun Yar Zar Toe",
         description: "Learn more about Tun Yar Zar Toe — background, skills, and experience.",
         icon: Icon as unknown as string,
+        // icon: Icon as unknown as string,
       });
     } else {
       setMetadata({

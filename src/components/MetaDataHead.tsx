@@ -6,13 +6,10 @@ export default function MetaDataHead() {
   console.log("Metadata in MetaDataHead:", metadata);
 
   return (
-    <>
     <head>
       <title>{metadata.title}</title>
       <meta name="description" content={metadata.description} />
       {/* <link rel="icon" href={metadata.icon} /> */}
-    </head>
-    </>
-    
+    </head>    
   );
 }
