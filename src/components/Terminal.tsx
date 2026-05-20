@@ -489,7 +489,7 @@ export default function Terminal() {
 
    return (
     <div style={{
-      borderRadius: 28,
+      // borderRadius: 28,
       overflow: "hidden",
       background: "linear-gradient(180deg, rgba(8,10,15,0.98), rgba(2,4,10,0.99))",
       border: "1px solid rgba(255,255,255,0.08)",
@@ -526,7 +526,7 @@ export default function Terminal() {
         </div> */}
       {/* </div> */}
 
-      <div style={{
+      {/* <div style={{
         display: "flex",
         alignItems: "center",
         gap: 10,
@@ -550,7 +550,7 @@ export default function Terminal() {
         </div>
         <span style={{ color: "var(--muted)", fontSize: 11, marginLeft: 8 }}>Terminal</span>
         <span style={{ marginLeft: "auto", color: "var(--muted)", fontSize: 10 }}>zsh</span>
-      </div>
+      </div> */}
 
       <div
         className="term-body"
@@ -558,15 +558,15 @@ export default function Terminal() {
         style={{
           cursor: "text",
           padding: "22px 20px 16px",
-          minHeight: 440,
+          minHeight: 450,
           maxHeight: "calc(100vh - 220px)",
           overflowY: "auto",
           scrollbarWidth: "thin",
-          background: "#02040a",
+          // background: "#02040a",
           fontFamily: "JetBrains Mono, Menlo, monospace",
           color: "var(--text)",
           lineHeight: 1.6,
-          borderRadius: "12px",
+          // borderRadius: "12px",
           boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)",
         }}
       >
