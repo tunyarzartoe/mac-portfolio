@@ -488,145 +488,144 @@ export default function Terminal() {
    }
 
    return (
-    <></>
-    // <div style={{
-    //   borderRadius: 28,
-    //   overflow: "hidden",
-    //   background: "linear-gradient(180deg, rgba(8,10,15,0.98), rgba(2,4,10,0.99))",
-    //   border: "1px solid rgba(255,255,255,0.08)",
-    //   boxShadow: "0 32px 100px rgba(0,0,0,0.35)",
-    // }}>
-    //   <div style={{
-    //     display: "flex",
-    //     alignItems: "center",
-    //     justifyContent: "space-between",
-    //     gap: 12,
-    //     padding: "14px 18px",
-    //     background: "rgba(255,255,255,0.05)",
-    //     borderBottom: "1px solid rgba(255,255,255,0.08)",
-    //     backdropFilter: "blur(16px)",
-    //   }}>
-    //     {/* <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-    //       <span style={{ fontSize: 16, color: "var(--green)" }}><img src={Icon.src} alt="Icon" style={{ width: 16, height: 16 }} /></span>
-    //       <div>
-    //         <p style={{ margin: 0, color: "var(--text)", fontSize: 12, fontWeight: 600 }}>yarzar.dev</p>
-    //         <p style={{ margin: 0, color: "var(--muted)", fontSize: 10 }}>Interactive macOS terminal</p>
-    //       </div>
-    //     </div> */}
-    //     {/* <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-    //       {["home","about","projects","contact"].map(item => (
-    //         <span key={item} style={{
-    //           color: "var(--muted)",
-    //           fontSize: 10,
-    //           textTransform: "uppercase",
-    //           letterSpacing: ".12em",
-    //         }}>
-    //           {item}
-    //         </span>
-    //       ))}
-    //     </div> */}
-    //   </div>
+    <div style={{
+      borderRadius: 28,
+      overflow: "hidden",
+      background: "linear-gradient(180deg, rgba(8,10,15,0.98), rgba(2,4,10,0.99))",
+      border: "1px solid rgba(255,255,255,0.08)",
+      boxShadow: "0 32px 100px rgba(0,0,0,0.35)",
+    }}>
+      {/* <div style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: 12,
+        padding: "14px 18px",
+        background: "rgba(255,255,255,0.05)",
+        borderBottom: "1px solid rgba(255,255,255,0.08)",
+        backdropFilter: "blur(16px)",
+      }}> */}
+        {/* <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <span style={{ fontSize: 16, color: "var(--green)" }}><img src={Icon.src} alt="Icon" style={{ width: 16, height: 16 }} /></span>
+          <div>
+            <p style={{ margin: 0, color: "var(--text)", fontSize: 12, fontWeight: 600 }}>yarzar.dev</p>
+            <p style={{ margin: 0, color: "var(--muted)", fontSize: 10 }}>Interactive macOS terminal</p>
+          </div>
+        </div> */}
+        {/* <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+          {["home","about","projects","contact"].map(item => (
+            <span key={item} style={{
+              color: "var(--muted)",
+              fontSize: 10,
+              textTransform: "uppercase",
+              letterSpacing: ".12em",
+            }}>
+              {item}
+            </span>
+          ))}
+        </div> */}
+      {/* </div> */}
 
-    //   <div style={{
-    //     display: "flex",
-    //     alignItems: "center",
-    //     gap: 10,
-    //     padding: "12px 16px",
-    //     background: "rgba(255,255,255,0.06)",
-    //     borderBottom: "1px solid rgba(255,255,255,0.08)",
-    //   }}>
-    //     <div style={{ display: "flex", gap: 8 }}>
-    //       <span title="Clear terminal" onClick={() => { setHistory([]); setTabHints([]); }} style={{
-    //         width: 12, height: 12, borderRadius: "50%", background: "#ff5f56",
-    //         display: "inline-block", boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.12)", cursor: "pointer",
-    //       }} />
-    //       <span style={{
-    //         width: 12, height: 12, borderRadius: "50%", background: "#ffbd2e",
-    //         display: "inline-block", boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.12)",
-    //       }} />
-    //       <span style={{
-    //         width: 12, height: 12, borderRadius: "50%", background: "#27c93f",
-    //         display: "inline-block", boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.12)",
-    //       }} />
-    //     </div>
-    //     <span style={{ color: "var(--muted)", fontSize: 11, marginLeft: 8 }}>Terminal</span>
-    //     <span style={{ marginLeft: "auto", color: "var(--muted)", fontSize: 10 }}>zsh</span>
-    //   </div>
+      <div style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 10,
+        padding: "12px 16px",
+        background: "rgba(255,255,255,0.06)",
+        borderBottom: "1px solid rgba(255,255,255,0.08)",
+      }}>
+        <div style={{ display: "flex", gap: 8 }}>
+          <span title="Clear terminal" onClick={() => { setHistory([]); setTabHints([]); }} style={{
+            width: 12, height: 12, borderRadius: "50%", background: "#ff5f56",
+            display: "inline-block", boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.12)", cursor: "pointer",
+          }} />
+          <span style={{
+            width: 12, height: 12, borderRadius: "50%", background: "#ffbd2e",
+            display: "inline-block", boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.12)",
+          }} />
+          <span style={{
+            width: 12, height: 12, borderRadius: "50%", background: "#27c93f",
+            display: "inline-block", boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.12)",
+          }} />
+        </div>
+        <span style={{ color: "var(--muted)", fontSize: 11, marginLeft: 8 }}>Terminal</span>
+        <span style={{ marginLeft: "auto", color: "var(--muted)", fontSize: 10 }}>zsh</span>
+      </div>
 
-    //   <div
-    //     className="term-body"
-    //     onClick={() => inputRef.current?.focus()}
-    //     style={{
-    //       cursor: "text",
-    //       padding: "22px 20px 16px",
-    //       minHeight: 440,
-    //       maxHeight: "calc(100vh - 220px)",
-    //       overflowY: "auto",
-    //       scrollbarWidth: "thin",
-    //       background: "#02040a",
-    //       fontFamily: "JetBrains Mono, Menlo, monospace",
-    //       color: "var(--text)",
-    //       lineHeight: 1.6,
-    //       borderRadius: "12px",
-    //       boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)",
-    //     }}
-    //   >
-    //      {history.map((entry, i) => (
-    //        <div key={i} style={{ marginBottom: 8 }}>
-    //          {entry.cmd && (
-    //            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
-    //              <span style={{ color: "var(--green)", flexShrink: 0, fontSize: 11 }}>{PROMPT}</span>
-    //              <span style={{ color: "var(--text)", fontSize: 11 }}>{entry.cmd}</span>
-    //            </div>
-    //          )}
-    //          {entry.output && <div style={{ marginTop: 6, paddingLeft: 2 }}>{entry.output}</div>}
-    //        </div>
-    //      ))}
+      <div
+        className="term-body"
+        onClick={() => inputRef.current?.focus()}
+        style={{
+          cursor: "text",
+          padding: "22px 20px 16px",
+          minHeight: 440,
+          maxHeight: "calc(100vh - 220px)",
+          overflowY: "auto",
+          scrollbarWidth: "thin",
+          background: "#02040a",
+          fontFamily: "JetBrains Mono, Menlo, monospace",
+          color: "var(--text)",
+          lineHeight: 1.6,
+          borderRadius: "12px",
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)",
+        }}
+      >
+         {history.map((entry, i) => (
+           <div key={i} style={{ marginBottom: 8 }}>
+             {entry.cmd && (
+               <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
+                 <span style={{ color: "var(--green)", flexShrink: 0, fontSize: 11 }}>{PROMPT}</span>
+                 <span style={{ color: "var(--text)", fontSize: 11 }}>{entry.cmd}</span>
+               </div>
+             )}
+             {entry.output && <div style={{ marginTop: 6, paddingLeft: 2 }}>{entry.output}</div>}
+           </div>
+         ))}
  
-    //      {/* Tab suggestions */}
-    //      {tabHints.length > 0 && (
-    //        <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 10, paddingLeft: 2 }}>
-    //          {tabHints.map(h => (
-    //            <span
-    //              key={h}
-    //              style={{ color: "var(--blue)", fontSize: 11, cursor: "pointer" }}
-    //              onClick={() => { setInput(h); setTabHints([]); inputRef.current?.focus(); }}
-    //            >
-    //              {h}
-    //            </span>
-    //          ))}
-    //        </div>
-    //      )}
+         {/* Tab suggestions */}
+         {tabHints.length > 0 && (
+           <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 10, paddingLeft: 2 }}>
+             {tabHints.map(h => (
+               <span
+                 key={h}
+                 style={{ color: "var(--blue)", fontSize: 11, cursor: "pointer" }}
+                 onClick={() => { setInput(h); setTabHints([]); inputRef.current?.focus(); }}
+               >
+                 {h}
+               </span>
+             ))}
+           </div>
+         )}
  
-    //      {/* Input row */}
-    //      <div style={{ display: "flex", alignItems: "center", gap: 8, paddingTop: 8, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-    //        <span style={{ color: "var(--green)", flexShrink: 0, fontSize: 11 }}>{PROMPT}</span>
-    //        <input
-    //          ref={inputRef}
-    //          value={input}
-    //          onChange={e => { setInput(e.target.value); setTabHints([]); }}
-    //          onKeyDown={onKeyDown}
-    //          className="term-input"
-    //          autoFocus
-    //          spellCheck={false}
-    //          autoComplete="off"
-    //          placeholder="Type help and press Enter"
-    //          style={{
-    //            width: "100%",
-    //            border: "none",
-    //            outline: "none",
-    //            background: "transparent",
-    //            color: "var(--text)",
-    //            fontSize: 11,
-    //            fontFamily: "inherit",
-    //            caretColor: "var(--green)",
-    //            padding: 0,
-    //          }}
-    //        />
-    //      </div>
-    //      <div ref={bottomRef} />
-    //    </div>
-    //  </div>
+         {/* Input row */}
+         <div style={{ display: "flex", alignItems: "center", gap: 8, paddingTop: 8, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+           <span style={{ color: "var(--green)", flexShrink: 0, fontSize: 11 }}>{PROMPT}</span>
+           <input
+             ref={inputRef}
+             value={input}
+             onChange={e => { setInput(e.target.value); setTabHints([]); }}
+             onKeyDown={onKeyDown}
+             className="term-input"
+             autoFocus
+             spellCheck={false}
+             autoComplete="off"
+             placeholder="Type help and press Enter"
+             style={{
+               width: "100%",
+               border: "none",
+               outline: "none",
+               background: "transparent",
+               color: "var(--text)",
+               fontSize: 11,
+               fontFamily: "inherit",
+               caretColor: "var(--green)",
+               padding: 0,
+             }}
+           />
+         </div>
+         <div ref={bottomRef} />
+       </div>
+     </div>
    );
 }
 
