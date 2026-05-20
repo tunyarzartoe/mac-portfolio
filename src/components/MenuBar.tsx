@@ -50,7 +50,7 @@ export default function MenuBar({ openWindow }: Props) {
         </span>
       </div>
 
-      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+      {/* <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
         {[
           { label: "About", id: "about" },
           { label: "Projects", id: "projects" },
@@ -86,7 +86,7 @@ export default function MenuBar({ openWindow }: Props) {
             {item.label}
           </button>
         ))}
-      </div>
+      </div> */}
 
       <span style={{ color: "var(--muted)", fontSize: 10 }}>{time}</span>
     </div>
