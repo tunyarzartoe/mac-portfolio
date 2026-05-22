@@ -10,7 +10,7 @@ const WORK_HISTORY = [
 const EDUCATION_HISTORY = [
   { title: "東京IT&プログラミング＆会計専門学校", period: "2026 - Present", logo: "IT" },
   { title: "東京明日アカデミー日本語学校", period: "2024 - 2026", logo: "日" },
-  { title: "Technological University Mandalay", period: "2018 - 2020", logo: "TU" },
+  { title: "Technological University Mandalay", period: "2018 - 2022", logo: "TU" },
 ];
 
 export default function AboutApp() {
@@ -123,12 +123,12 @@ export default function AboutApp() {
         </div>
       ))}
 
-      <div style={{ borderLeft:"2px solid var(--border)", paddingLeft:10, position:"relative" }}>
+      {/* <div style={{ borderLeft:"2px solid var(--border)", paddingLeft:10, position:"relative" }}>
         <div style={{ position:"absolute", left:-5, top:4, width:8, height:8, borderRadius:"50%", background:"var(--blue)" }} />
         <p style={{ color:"var(--text)", fontSize:11, fontWeight:500 }}>{EDUCATION.degree}</p>
         <p style={{ color:"var(--blue)", fontSize:10 }}>{EDUCATION.school}</p>
         <p style={{ color:"var(--muted)", fontSize:10 }}>{EDUCATION.period} · GPA {EDUCATION.gpa}</p>
-      </div>
+      </div> */}
     </div>
   );
 }
