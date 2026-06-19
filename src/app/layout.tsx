@@ -1,26 +1,31 @@
-"use client";
-
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "../styles/globals.css";
-import MetaDataHead from "../components/MetaDataHead";
 
-const geistSans = Inter({
+const inter = Inter({
   variable: "--font-geist-sans",
   subsets: ["latin"],
-  display: "swap",
 });
 
-const geistMono = JetBrains_Mono({
+const mono = JetBrains_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
-  display: "swap",
 });
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export const metadata = {
+  title: "Tun Yar Zar Toe - software engineer",
+  description: "AI Engineer & Full Stack Developer Portfolio",
+};
 
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <MetaDataHead/>
+    <html
+      lang="en"
+      className={`${inter.variable} ${mono.variable}`}
+    >
       <body>{children}</body>
     </html>
   );
