@@ -20,41 +20,41 @@ export default function AboutApp() {
     <div className="win-body">
       {/* Hero */}
       <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16, paddingBottom: 14, borderBottom: "1px solid var(--border)" }}>
-<div
-  style={{
-    width: 64,
-    height: 64,
-    padding: 2,
-    borderRadius: "50%",
-    background:
-      "linear-gradient(135deg,var(--green),var(--blue))",
-    boxShadow: "0 0 25px rgba(0,255,180,.2)",
-    flexShrink: 0,
-  }}
->
-  <div
-    style={{
-      width: "100%",
-      height: "100%",
-      borderRadius: "50%",
-      overflow: "hidden",
-      background: "#0f172a",
-    }}
-  >
-    <Image
-      src={ProfilePhoto}
-      alt="Tun Yar Zar Toe"
-      width={60}
-      height={60}
-      priority
-      style={{
-        width: "100%",
-        height: "100%",
-        objectFit: "cover",
-      }}
-    />
-  </div>
-</div>
+        <div
+          style={{
+            width: 64,
+            height: 64,
+            padding: 2,
+            borderRadius: "50%",
+            background:
+              "linear-gradient(135deg,var(--green),var(--blue))",
+            boxShadow: "0 0 25px rgba(0,255,180,.2)",
+            flexShrink: 0,
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              borderRadius: "50%",
+              overflow: "hidden",
+              background: "#0f172a",
+            }}
+          >
+            <Image
+              src={ProfilePhoto}
+              alt="Tun Yar Zar Toe"
+              width={60}
+              height={60}
+              priority
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
+          </div>
+        </div>
         {/* <div style={{
           width:52, height:52, borderRadius:"50%",
           background:"var(--navy-2)", border:"2px solid var(--green)",
