@@ -1,20 +1,18 @@
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "../styles/globals.css";
+import MetaDataHead from "../components/MetaDataHead";
 
 const inter = Inter({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const mono = JetBrains_Mono({
+const jetbrainsMono = JetBrains_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
 });
-
-export const metadata = {
-  title: "Tun Yar Zar Toe - software engineer",
-  description: "AI Engineer & Full Stack Developer Portfolio",
-};
 
 export default function RootLayout({
   children,
@@ -24,9 +22,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${mono.variable}`}
+      className={`${inter.variable} ${jetbrainsMono.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        <MetaDataHead />
+        {children}
+      </body>
     </html>
   );
 }

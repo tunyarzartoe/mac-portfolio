@@ -1,53 +1,47 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Icon from "@/public/favicon.ico";
 
-interface MetadataState {
+export interface MetadataState {
   title: string;
   description: string;
   icon: string;
 }
 
-export const useMetadata = () => {
+export const useMetadata = (): MetadataState => {
   const pathname = usePathname();
 
-  const [metadata, setMetadata] = useState<MetadataState>({
-    title: "",
-    description: "",
-    icon: Icon as unknown as string,
-  });
-
-  useEffect(() => {
-    if (pathname === "/") {
-      setMetadata({
+  switch (pathname) {
+    case "/":
+      return {
         title: "Tun Yar Zar Toe | Software Engineer",
         description:
           "Interactive terminal portfolio showcasing projects, skills, and experience.",
-        icon: Icon as unknown as string,
-      });
-    } else if (pathname === "/projects") {
-      setMetadata({
-        title: "Projects | Tun Yar Zar Toe",
-        description: "A collection of software engineering and web development projects.",
-        icon: Icon as unknown as string,
-      });
-    } else if (pathname === "/about") {
-      setMetadata({
-        title: "About | Tun Yar Zar Toe",
-        description: "Learn more about Tun Yar Zar Toe — background, skills, and experience.",
-        icon: Icon as unknown as string,
-        // icon: Icon as unknown as string,
-      });
-    } else {
-      setMetadata({
-        title: "Tun Yar Zar Toe",
-        description: "Software Engineer Portfolio.",
-        icon: Icon as unknown as string,
-      });
-    }
-  }, [pathname]);
+        icon: Icon.src,
+      };
 
-  return metadata;
+    case "/projects":
+      return {
+        title: "Projects | Tun Yar Zar Toe",
+        description:
+          "A collection of software engineering and web development projects.",
+        icon: Icon.src,
+      };
+
+    case "/about":
+      return {
+        title: "About | Tun Yar Zar Toe",
+        description:
+          "Learn more about Tun Yar Zar Toe — background, skills, and experience.",
+        icon: Icon.src,
+      };
+
+    default:
+      return {
+        title: "Tun Yar Zar Toe",
+        description: "Software Engineer Portfolio",
+        icon: Icon.src,
+      };
+  }
 };
