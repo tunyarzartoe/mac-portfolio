@@ -87,7 +87,9 @@ export default function Window({
           onClick={e => { e.stopPropagation(); onClose(); }}
           title="Close"
           aria-label="Close"
-        />
+        >
+        <span className="traffic-icon">x</span>
+        </button>
         <button
           className="traffic-dot"
           style={{ background: "#fbbf24" }}
