@@ -84,7 +84,9 @@ export const SKILLS = {
   ],
   Backend: [
     { name: "Node.js",          level: 82 },
+    { name: "Java",             level: 80 },
     { name: "Python",           level: 75 },
+    { name: "C#",               level: 70 },
     { name: "REST APIs",        level: 85 },
     { name: "PostgreSQL / SQL", level: 78 },
   ],
