@@ -1,9 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const LINES = [
   { t: 0,    text: "Darwin Kernel Version 24.4.0: Fri Apr 18; root:xnu-11215.101.15/RELEASE_ARM64_T6020" },
-  { t: 160,  text: "Copyright (c) 1982, 2024 Apple Inc. All rights reserved." },
+  { t: 160,  text: "Copyright (c) 1982, 2026 Apple Inc. All rights reserved." },
   { t: 280,  text: "" },
   { t: 400,  text: "Booting mac-portfolio.app ..." },
   { t: 560,  text: "Loading components .......... [████████████████████] 100%" },
@@ -16,17 +16,31 @@ const LINES = [
 export default function BootScreen({ onDone }: { onDone: () => void }) {
   const [shown, setShown] = useState<string[]>([]);
   const [ready, setReady] = useState(false);
+  // Use a ref so the keydown handler always sees the latest value
+  const readyRef = useRef(false);
 
   useEffect(() => {
-    LINES.forEach(({ t, text }) =>
-      setTimeout(() => setShown(p => [...p, text]), t)
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    LINES.forEach(({ t, text }) => {
+      timers.push(setTimeout(() => setShown((p) => [...p, text]), t));
+    });
+    timers.push(
+      setTimeout(() => {
+        setReady(true);
+        readyRef.current = true;
+      }, 1600)
     );
-    setTimeout(() => setReady(true), 1500);
 
-    const handler = (e: KeyboardEvent) => { if (ready) onDone(); };
+    const handler = () => {
+      if (readyRef.current) onDone();
+    };
     window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, [ready, onDone]);
+
+    return () => {
+      timers.forEach(clearTimeout);
+      window.removeEventListener("keydown", handler);
+    };
+  }, [onDone]);
 
   return (
     <div
@@ -38,18 +52,26 @@ export default function BootScreen({ onDone }: { onDone: () => void }) {
           line === "" ? (
             <div key={i} className="h-3" />
           ) : (
-            <p key={i} className="boot-line" style={{ color: "var(--green)", opacity: 0.82 }}>{line}</p>
+            <p key={i} className="boot-line" style={{ color: "var(--green)", opacity: 0.85 }}>
+              {line}
+            </p>
           )
         )}
+
         {shown.length > 0 && (
-          <div className="flex items-center gap-3 mt-4">
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 16 }}>
             <span
-              className="cursor-blink inline-block w-[7px] h-[14px]"
-              style={{ background: "var(--green)" }}
+              className="cursor-blink inline-block"
+              style={{
+                width: 7,
+                height: 14,
+                background: "var(--green)",
+                display: "inline-block",
+              }}
             />
             {ready && (
-              <span style={{ color: "var(--muted)", fontSize: 10 }}>
-                click or press any key to continue
+              <span style={{ color: "var(--muted)", fontSize: 10, animation: "bootFade 0.3s ease" }}>
+                click or press any key to continue →
               </span>
             )}
           </div>

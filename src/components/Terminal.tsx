@@ -380,17 +380,36 @@ function WeatherOut() {
 }
 
 function BannerOut() {
+  const ascii = `
+ __ __  ___  ____  ____  __   ____     ____  ____  _   _
+ \\ V / / _ \\|  _ \\|_  / /  \\ |  _ \\   |  _ \\| ___|| | | |
+  \\ / | (_) | |_) |/ / | () || | | |  | | | | _|  \\ \\ / /
+  |_|  \\___/|____//___|\\__/ |_| |_|  |_| |_|___/  \\___|
+`.trim();
+
   return (
-    <>
-    </>
-    // <div style={{ marginTop: 4 }}>
-    //   <pre style={{ color: "var(--green)", fontSize: "8px", lineHeight: 1.2, overflow: "hidden" }}>{`yarzar.dev`}</pre>
-    //   <p style={{ color: "var(--muted)", fontSize: 10, marginTop: 6 }}>
-    //     yarzar.dev — interactive terminal portfolio
-    //   </p>
-    // </div>
+    <div style={{ marginTop: 4 }}>
+      <pre
+        style={{
+          color: "var(--green)",
+          fontSize: 8,
+          lineHeight: 1.35,
+          overflow: "hidden",
+          opacity: 0.85,
+        }}
+      >
+        {ascii}
+      </pre>
+      <p style={{ color: "var(--muted)", fontSize: 10, marginTop: 8 }}>
+        yarzar.dev — interactive macOS terminal portfolio
+      </p>
+      <p style={{ color: "var(--muted)", fontSize: 10, marginTop: 2 }}>
+        Type <span style={{ color: "var(--yellow)" }}>help</span> for a full command list.
+      </p>
+    </div>
   );
 }
+
 
 /* ── Main Terminal component ─────────────────────────────────── */
 export default function Terminal() {
@@ -440,9 +459,9 @@ export default function Terminal() {
     else if (lo === "ls")              out = <p style={{ color: "var(--blue)" }}>about.md&nbsp;&nbsp;projects/&nbsp;&nbsp;skills.json&nbsp;&nbsp;experience.yml&nbsp;&nbsp;education.txt&nbsp;&nbsp;contact.txt&nbsp;&nbsp;README.md</p>;
     else if (lo === "ls -la")          out = <LsLaOut />;
     else if (lo === "cat readme")      out = <ReadmeOut />;
-    else if (lo === "open github")     out = <p style={{ color: "var(--green)" }}>Opening {ME.github} ↗</p>;
-    else if (lo === "open linkedin")   out = <p style={{ color: "var(--green)" }}>Opening {ME.linkedin} ↗</p>;
-    else if (lo === "open email")      out = <p style={{ color: "var(--green)" }}>Launching mail → {ME.email}</p>;
+    else if (lo === "open github")   { window.open(ME.github,   "_blank", "noopener,noreferrer"); out = <p style={{ color: "var(--green)" }}>Opening {ME.github} ↗</p>; }
+    else if (lo === "open linkedin") { window.open(ME.linkedin, "_blank", "noopener,noreferrer"); out = <p style={{ color: "var(--green)" }}>Opening {ME.linkedin} ↗</p>; }
+    else if (lo === "open email")    { window.open(`mailto:${ME.email}`, "_self"); out = <p style={{ color: "var(--green)" }}>Launching mail → {ME.email}</p>; }
     else if (lo === "sudo" || lo === "sudo su") out = <p style={{ color: "var(--red)" }}>sudo: permission denied — nice try 😄</p>;
     else if (lo === "history")         out = <HistoryOut hist={cmdHist} />;
     else if (lo === "")                out = null;

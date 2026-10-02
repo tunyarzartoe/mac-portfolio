@@ -1,30 +1,50 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ME } from "@/src/data/portfolio";
 
 interface Props {
   openWindow: (id: string) => void;
 }
 
+const NAV_ITEMS = [
+  { label: "About",    id: "about"    },
+  { label: "Projects", id: "projects" },
+  { label: "Skills",   id: "skills"   },
+  { label: "Contact",  id: "contact"  },
+  { label: "Terminal", id: "terminal" },
+];
+
 export default function MenuBar({ openWindow }: Props) {
   const [time, setTime] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fmt = () =>
       setTime(
         new Date().toLocaleTimeString("en-US", {
           weekday: "short",
-          month: "short",
-          day: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-          hour12: false,
+          month:   "short",
+          day:     "numeric",
+          hour:    "2-digit",
+          minute:  "2-digit",
+          hour12:  false,
         })
       );
     fmt();
     const id = setInterval(fmt, 1000);
     return () => clearInterval(id);
+  }, []);
+
+  // Close menu on outside click
+  useEffect(() => {
+    function handler(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, []);
 
   return (
@@ -35,29 +55,33 @@ export default function MenuBar({ openWindow }: Props) {
         alignItems: "center",
         justifyContent: "space-between",
         gap: 14,
-        padding: "10px 16px",
-        background: "rgba(255,255,255,0.08)",
-        borderBottom: "1px solid rgba(255,255,255,0.12)",
-        backdropFilter: "blur(16px)",
-        WebkitBackdropFilter: "blur(16px)",
-        boxShadow: "inset 0 -1px 0 rgba(255,255,255,0.04)",
+        padding: "0 16px",
+        height: 26,
+        background: "rgba(6,13,26,0.9)",
+        borderBottom: "1px solid var(--border)",
+        backdropFilter: "blur(18px)",
+        WebkitBackdropFilter: "blur(18px)",
+        zIndex: 1000,
+        position: "relative",
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-        {/* <span style={{ color: "var(--green)", fontSize: 14, fontWeight: 700 }}></span> */}
-        <span style={{ color: "var(--text)", fontSize: 12, fontWeight: 600 }}>
+      {/* Left: Apple-ish logo + handle + nav dropdown */}
+      <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+        {/* Handle / "Apple logo" area */}
+        <span
+          style={{
+            color: "var(--text)",
+            fontSize: 12,
+            fontWeight: 700,
+            letterSpacing: ".02em",
+            cursor: "default",
+          }}
+        >
           {ME.handle}
         </span>
-      </div>
 
-      {/* <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-        {[
-          { label: "About", id: "about" },
-          { label: "Projects", id: "projects" },
-          { label: "Skills", id: "skills" },
-          { label: "Contact", id: "contact" },
-          { label: "Terminal", id: "terminal" },
-        ].map(item => (
+        {/* Nav items */}
+        {NAV_ITEMS.map((item) => (
           <button
             key={item.id}
             onClick={() => openWindow(item.id)}
@@ -68,27 +92,27 @@ export default function MenuBar({ openWindow }: Props) {
               color: "var(--muted)",
               fontSize: 11,
               fontWeight: 500,
-              padding: "6px 8px",
-              borderRadius: 8,
-              transition: "background 0.18s, color 0.18s",
+              padding: "0 6px",
+              height: "100%",
+              borderRadius: 4,
+              transition: "color 0.15s",
             }}
-            onMouseEnter={e => {
-              const target = e.target as HTMLElement;
-              target.style.color = "var(--text)";
-              target.style.background = "rgba(255,255,255,0.08)";
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.color = "var(--text)";
+              (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.07)";
             }}
-            onMouseLeave={e => {
-              const target = e.target as HTMLElement;
-              target.style.color = "var(--muted)";
-              target.style.background = "transparent";
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.color = "var(--muted)";
+              (e.currentTarget as HTMLElement).style.background = "transparent";
             }}
           >
             {item.label}
           </button>
         ))}
-      </div> */}
+      </div>
 
-      <span style={{ color: "var(--muted)", fontSize: 10 }}>{time}</span>
+      {/* Right: time */}
+      <span style={{ color: "var(--muted)", fontSize: 10, flexShrink: 0 }}>{time}</span>
     </div>
   );
 }
