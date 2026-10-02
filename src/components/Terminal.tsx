@@ -401,7 +401,7 @@ function BannerOut() {
         {ascii}
       </pre>
       <p style={{ color: "var(--muted)", fontSize: 10, marginTop: 8 }}>
-        yarzar.dev — interactive macOS terminal portfolio
+        tun.dev — interactive macOS terminal portfolio
       </p>
       <p style={{ color: "var(--muted)", fontSize: 10, marginTop: 2 }}>
         Type <span style={{ color: "var(--yellow)" }}>help</span> for a full command list.
@@ -527,7 +527,7 @@ export default function Terminal() {
         {/* <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <span style={{ fontSize: 16, color: "var(--green)" }}><img src={Icon.src} alt="Icon" style={{ width: 16, height: 16 }} /></span>
           <div>
-            <p style={{ margin: 0, color: "var(--text)", fontSize: 12, fontWeight: 600 }}>yarzar.dev</p>
+            <p style={{ margin: 0, color: "var(--text)", fontSize: 12, fontWeight: 600 }}>tun.dev</p>
             <p style={{ margin: 0, color: "var(--muted)", fontSize: 10 }}>Interactive macOS terminal</p>
           </div>
         </div> */}
